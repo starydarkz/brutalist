@@ -255,6 +255,7 @@ for help in ['help', '-help', '--help', '-h']:
 password_list = []
 
 # If only 1 argument that doesn't match options, use argument as password:
+print (len(sys.argv)) #debug
 if len(sys.argv) <= 1:
     try:
         passwords = [x for x in sys.stdin.readlines()]
@@ -267,8 +268,10 @@ elif len(sys.argv) == 2:
     for opt in ['-p', '--password', '-i', '--input', '-f', '--file', '-c', '--limit-special', '--limit-chars', '-n', '--limit-numbers', '-l', '--limit', '--leet']:
             if opt in sys.argv:
                 flag = True
+    print (flag)
     if not flag:
         password_list.append(sys.argv[1].strip())
+        print (password_list) #debug
     else:
         try:
             passwords = [x for x in sys.stdin.readlines()]
@@ -278,18 +281,42 @@ elif len(sys.argv) == 2:
             show_help()
 elif len(sys.argv) >= 3:
     # Check for -p|--password argument:
-    for param in ['-p', '--password']:
-        if param == sys.argv[1]:
-            password_list.append(sys.argv[2].strip())
+    count = 0
+    active_args = []
+    for input_arg in sys.argv:
 
-    # Check for file input:
-    file = None
-    for param in ['-i', '-f', '--file']:
-        if param == sys.argv[1]:
-            password_file = sys.argv[2]
-            file = True
-    if file:
+        if "-p" == input_arg or "--password" == input_arg:
+            print ("-p: ", sys.argv[count+1]) #debug
+            pos_pass = count+1
+            active_args.append("pass")
+        elif "-i" == input_arg or "-f" == input_arg or "--file" == input_arg:
+            print ("-i: ", sys.argv[count+1])
+            pos_input =count
+            active_args.append("input")
+        elif  "-c" == input_arg or "--limit-special" == input_arg or "--limit_chars" == input_arg: 
+            print ("-c: ", sys.argv[count])
+            pos_limit_special = count
+            active_args.append("limit_special")
+        elif  "-n" == input_arg or "--limit-numbers" == input_arg: 
+            print ("-n: ", sys.argv[count])
+            pos_limit_numbers = count
+            active_args.append("limit_number")
+        elif  "-l" == input_arg or "--limit" == input_arg: 
+            print ("-l: ", sys.argv[count])
+            pos_limit = count
+            active_args.append("limit")
+        elif "--leet" == input_arg: 
+            print ("-leet: ", sys.argv[count])
+            pos_leet = count
+            active_args.append("leet")
+
+        count += 1
+    if "pass" in active_args:
+        password_list.append(sys.argv[pos_pass].strip())
+
+    if "input" in active_args:
         try:
+            password_file = pos_input
             with open(password_file, 'r') as fp:
                 for line in fp:
                     password_list.append(line.strip())
@@ -303,14 +330,9 @@ else:
     except:
         show_help()
 
-# Character limits:
-flag = None
 special_characters = '!@#$%^&*+-=_.;~()[]'
-for opt in ['-l', '-c', '--limit-special', '--limit-chars', '--limit']:
-    for arg in sys.argv:
-        if opt == arg:
-            flag = True
-if flag:
+# Character limits:
+if "limit_special" in active_args:
     special_characters='!@#$%*-+_'
 
 passwords = set(password_list)
