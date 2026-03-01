@@ -255,7 +255,7 @@ for help in ['help', '-help', '--help', '-h']:
 password_list = []
 
 # If only 1 argument that doesn't match options, use argument as password:
-print (len(sys.argv)) #debug
+#print (len(sys.argv)) #debug
 if len(sys.argv) <= 1:
     try:
         passwords = [x for x in sys.stdin.readlines()]
@@ -271,7 +271,7 @@ elif len(sys.argv) == 2:
     print (flag)
     if not flag:
         password_list.append(sys.argv[1].strip())
-        print (password_list) #debug
+        #print (password_list) #debug
     else:
         try:
             passwords = [x for x in sys.stdin.readlines()]
@@ -286,27 +286,27 @@ elif len(sys.argv) >= 3:
     for input_arg in sys.argv:
 
         if "-p" == input_arg or "--password" == input_arg:
-            print ("-p: ", sys.argv[count+1]) #debug
+            #print ("-p: ", sys.argv[count+1]) #debug
             pos_pass = count+1
             active_args.append("pass")
         elif "-i" == input_arg or "-f" == input_arg or "--file" == input_arg:
-            print ("-i: ", sys.argv[count+1])
+            #print ("-i: ", sys.argv[count+1])
             pos_input =count
             active_args.append("input")
         elif  "-c" == input_arg or "--limit-special" == input_arg or "--limit_chars" == input_arg: 
-            print ("-c: ", sys.argv[count])
+            #print ("-c: ", sys.argv[count])
             pos_limit_special = count
             active_args.append("limit_special")
         elif  "-n" == input_arg or "--limit-numbers" == input_arg: 
-            print ("-n: ", sys.argv[count])
+            #print ("-n: ", sys.argv[count])
             pos_limit_numbers = count
             active_args.append("limit_number")
         elif  "-l" == input_arg or "--limit" == input_arg: 
-            print ("-l: ", sys.argv[count])
+            #print ("-l: ", sys.argv[count])
             pos_limit = count
             active_args.append("limit")
         elif "--leet" == input_arg: 
-            print ("-leet: ", sys.argv[count])
+            #print ("-leet: ", sys.argv[count])
             pos_leet = count
             active_args.append("leet")
 
